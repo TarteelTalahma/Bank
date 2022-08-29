@@ -2,16 +2,22 @@ import { Component } from "react";
 import Transaction from "./Transaction";
 class Transactions extends Component {
   render() {
+    console.log(this.props.getTransactionData);
     return (
       <div>
         <table>
-          <div>
-            <p>amount</p>
-            <p>category</p>
-            <p>vendor</p>
-          </div>
-          {this.props.transactionData.map((e) => {
-            return <Transaction transactionData={e} />;
+          <tr>
+            <th> amount </th>
+            <th> vendor </th>
+            <th> category </th>
+          </tr>
+          {this.props.getTransactionData.map((e) => {
+            return (
+              <Transaction
+                transactionData={e}
+                deleteTrancations={this.props.deleteTrancations}
+              />
+            );
           })}
         </table>
       </div>

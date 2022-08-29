@@ -27,25 +27,24 @@ app.post("/transaction", (req, res) => {
   const transaction = req.body;
   let ObjectTransactions = new Transaction({
     amount: transaction.amount,
-    category: transaction.category,
+    category: transaction.Category,
     vendor: transaction.vendor,
   });
   ObjectTransactions.save();
   res.end();
 });
-app.delete("/transactionDelete", (req, res) => {
-  transactionToDelete = req.body;
-  Transaction.deleteOne(
-    {
-      amount: transactionToDelete.amount,
-      category: transactionToDelete.category,
-      vendor: transactionToDelete.vendor,
-    },
-    function (err) {}
-  );
+app.delete("/transactionDelete/:id", (req, res) => {
+  idToDelete = req.params.id;
+  Transaction.deleteOne({ _id: idToDelete }, function (err) {});
+
   res.end();
 });
-
+app.get("/totalCategoryAmount", async (req, res) => {
+  const CategoryAmount = await Transaction.aggregate([
+    { $group: { _id: "$category", totalAmount: { $sum: "$amount" } } },
+  ]);
+  res.send(CategoryAmount);
+});
 app.listen(port, function () {
   console.log(`Server running in port${port}`);
 });

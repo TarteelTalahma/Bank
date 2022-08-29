@@ -4,13 +4,23 @@ class Transaction extends Component {
   constructor() {
     super();
   }
+  delete = (id) => {
+    this.props.deleteTrancations(id);
+  };
   render() {
     return (
-      <div>
+      <tr>
         <td>{this.props.transactionData.amount}</td>
         <td>{this.props.transactionData.vendor}</td>
-        <td>{this.props.transactionData.category}</td>
-      </div>
+        <td>{this.props.transactionData.category} </td>
+        <button
+          onClick={(event) => {
+            this.delete(this.props.transactionData._id);
+          }}
+        >
+          Delete
+        </button>
+      </tr>
     );
   }
 }
